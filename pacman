@@ -69,6 +69,14 @@ options:
         required: false
         default: "no"
         choices: ["yes", "no"]
+        
+    force:
+        description:
+            - Whether or not to force bypass conflict checks and overwrite conflicting
+              files.
+        required: false
+        default: "no"
+        choices: ["yes, "no"]
 '''
 
 EXAMPLES = '''
@@ -77,6 +85,9 @@ EXAMPLES = '''
 
 # Upgrade package foo
 - pacman: name=foo state=latest update_cache=yes
+
+# Install package foo and bypass conflict checks
+- pacman: name=foo state=present force=yes
 
 # Remove packages foo and bar
 - pacman: name=foo,bar state=absent
@@ -185,6 +196,9 @@ def install_packages(module, state, packages, package_files):
         if module.params["as_deps"]:
             flags = '%s --asdeps' % flags
 
+        if module.params["force"]:
+            flags = '%s --force' % flags
+
         if package_files[i]:
             params = '-U%s %s' % (flags, package_files[i])
         else:
@@ -228,7 +242,8 @@ def main():
             state        = dict(default='present', choices=['present', 'installed', "latest", 'absent', 'removed']),
             recurse      = dict(default='no', choices=BOOLEANS, type='bool'),
             update_cache = dict(default='no', aliases=['update-cache'], choices=BOOLEANS, type='bool'),
-            as_deps      = dict(default='no', choices=BOOLEANS, type='bool')),
+            as_deps      = dict(default='no', choices=BOOLEANS, type='bool'),
+            force        = dict(default='no', choices=BOOLEANS, type='bool')),
         required_one_of = [['name', 'update_cache']],
         supports_check_mode = True)
 

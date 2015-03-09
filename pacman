@@ -61,6 +61,14 @@ options:
         required: false
         default: "no"
         choices: ["yes", "no"]
+
+    as_deps:
+        description:
+            - Whether or not to install the package with the **--asdeps** flag. 
+              Useful for installing optional dependencies.
+        required: false
+        default: "no"
+        choices: ["yes", "no"]
 '''
 
 EXAMPLES = '''
@@ -78,6 +86,9 @@ EXAMPLES = '''
 
 # Run the equivalent of "pacman -Syy" as a separate step
 - pacman: update_cache=yes
+
+# Install package bar as dependency
+- pacman: name=bar state=present as_deps=yes
 '''
 
 import json
@@ -169,10 +180,15 @@ def install_packages(module, state, packages, package_files):
         if installed and (state == 'present' or (state == 'latest' and updated)):
             continue
 
+        flags = ""
+
+        if module.params["as_deps"]:
+            flags = '%s --asdeps' % flags
+
         if package_files[i]:
-            params = '-U %s' % package_files[i]
+            params = '-U%s %s' % (flags, package_files[i])
         else:
-            params = '-S %s' % package
+            params = '-S%s %s' % (flags, package)
 
         cmd = "pacman %s --noconfirm" % (params)
         rc, stdout, stderr = module.run_command(cmd, check_rc=False)
@@ -211,7 +227,8 @@ def main():
             name         = dict(aliases=['pkg']),
             state        = dict(default='present', choices=['present', 'installed', "latest", 'absent', 'removed']),
             recurse      = dict(default='no', choices=BOOLEANS, type='bool'),
-            update_cache = dict(default='no', aliases=['update-cache'], choices=BOOLEANS, type='bool')),
+            update_cache = dict(default='no', aliases=['update-cache'], choices=BOOLEANS, type='bool'),
+            as_deps      = dict(default='no', choices=BOOLEANS, type='bool')),
         required_one_of = [['name', 'update_cache']],
         supports_check_mode = True)
 

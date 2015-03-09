@@ -36,6 +36,6 @@ License
 
 ansible-pacman is provided under the same license as Ansible (GNU General Public License Version 3)
 
-Copyright © 2012, Afterburn <http://github.com/afterburn>
-Copyright © 2013, Aaron Bull Schaefer <aaron@elasticdog.com>
-Copyright © 2015, Ross Williams
+- Copyright © 2012, Afterburn <http://github.com/afterburn>
+- Copyright © 2013, Aaron Bull Schaefer <aaron@elasticdog.com>
+- Copyright © 2015, Ross Williams

@@ -291,8 +291,8 @@ def main():
             recurse      = dict(default=False, type='bool'),
             force        = dict(default=False, type='bool'),
             upgrade      = dict(default=False, type='bool'),
-            update_cache = dict(default=False, aliases=['update-cache'], type='bool')
-            as_deps      = dict(default='no', choices=BOOLEANS, type='bool')),
+            update_cache = dict(default=False, aliases=['update-cache'], type='bool'),
+            as_deps      = dict(default='no', type='bool')),
         required_one_of = [['name', 'update_cache', 'upgrade']],
         supports_check_mode = True)
 

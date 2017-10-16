@@ -26,10 +26,8 @@ Example Plays (New features only)
 Future Plans
 ============
 
-* Support force option
-* Support package groups (--needed, detect changes)
 * Support upgrade (-Syu) with pacnew and pacsave detection
-* Submit features to Ansible Extra Modules repository
+* Submit features to Ansible repository
 
 License
 =======
@@ -38,4 +36,5 @@ ansible-pacman is provided under the same license as Ansible (GNU General Public
 
 - Copyright © 2012, Afterburn <http://github.com/afterburn>
 - Copyright © 2013, Aaron Bull Schaefer <aaron@elasticdog.com>
-- Copyright © 2015, Ross Williams
+- Copyright © 2015, Indrajit Raychaudhuri <irc+code@indrajit.com>
+- Copyright © 2017, Ross Williams <me@rosswilliams.id.au>
